@@ -4,4 +4,4 @@ from pblog.models import Post
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        exclude = []
+        fields = ['id', 'title', 'content', 'author', 'published']

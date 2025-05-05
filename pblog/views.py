@@ -14,3 +14,6 @@ class PostViewSet(viewsets.ModelViewSet):
     ordering_fields = ['title']
     search_fields = ['title', 'content']
     throttle_classes = [UserRateThrottle, PostAnonRateThrottle]
+    
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
