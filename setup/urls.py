@@ -7,7 +7,9 @@ from rest_framework_simplejwt.views import (
 from rest_framework import routers
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from pblog.views import PostViewSet, UserViewSet
+from pblog.views import PostViewSet, UserViewSet, ImageViewSet
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -24,6 +26,7 @@ schema_view = get_schema_view(
 router = routers.DefaultRouter()
 router.register('posts', PostViewSet, basename='Posts')
 router.register('users', UserViewSet, basename='Users')
+router.register('images', ImageViewSet, basename='Images')
 
 
 urlpatterns = [
@@ -33,5 +36,5 @@ urlpatterns = [
     path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -3,12 +3,15 @@ from rest_framework.throttling import UserRateThrottle
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 
-from pblog.models import Post
-from pblog.serializers import PostSerializer, UserSerializer
+from pblog.models import Post, Image
+from pblog.serializers import PostSerializer, UserSerializer, ImageSerializer
 from pblog.throttles import PostAnonRateThrottle
 
 from django.contrib.auth.models import User 
 
+class ImageViewSet(viewsets.ModelViewSet):
+    queryset = Image.objects.all().order_by('id')
+    serializer_class = ImageSerializer
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('id')
@@ -24,3 +27,4 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all().order_by('id') 
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
+    
